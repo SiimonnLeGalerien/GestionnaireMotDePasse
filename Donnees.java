@@ -19,14 +19,18 @@ public class Donnees {
 	}
 	public Donnees (String nomFichier) {
 		fichier = new CSV(nomFichier);
+		aes = new AES256();
+		aes_ok = true;
 	}
 	public Donnees (String nomFichier, String motDePasse) {
 		fichier = new CSV(nomFichier);
 		aes = new AES256(motDePasse);
+		aes_ok = true;
 	}
 	public Donnees (String nomFichier, String motDePasse, String salt) {
 		fichier = new CSV(nomFichier);
 		aes = new AES256(motDePasse, salt);
+		aes_ok = true;
 	}
 	public void ajouterTuple (Tuple t) {
 		if (t != null)
@@ -51,5 +55,8 @@ public class Donnees {
 	}
 	public int getLength () {
 		return data.size();
+	}
+	public void creerFichier () {
+		fichier.creationFichier();
 	}
 }

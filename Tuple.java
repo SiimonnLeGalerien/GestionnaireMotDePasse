@@ -39,7 +39,9 @@ public class Tuple {
 	
 	public static Tuple stringToTuple(String s) {
 		String serv, user, pass;
-		
+		if (s == null)
+			return null;
+
 		int first, sec;
 		first = s.indexOf(",");
 		sec = s.indexOf(",", first+1);
