@@ -15,7 +15,7 @@ public class CSV {
 		nomFichier = "nameless.csv";
 	}
 	public CSV (String nomFichier) {
-		if (this.nomFichier != null)
+		if (nomFichier != null)
 			this.nomFichier = nomFichier;
 	}
 	public CSV (String nomFichier, char sep) {
@@ -30,7 +30,7 @@ public class CSV {
 		try {
 			fr = new FileReader(nomFichier);
 			fr.close();
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			try {
 				fw = new FileWriter ("log.txt");
 				bw = new BufferedWriter(fw);

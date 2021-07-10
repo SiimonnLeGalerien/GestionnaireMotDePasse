@@ -12,22 +12,52 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AES256 {
 
-	private String tmp = "1234567890123456";
+	private String saltString = "1234567890123456";
 	private String SECRET_KEY = "my_super_secret_key_ho_ho_ho";
 	private byte[] SALT;
 	private static final	byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   private static final IvParameterSpec ivspec = new IvParameterSpec(iv);
 
+	public AES256 () {
+		SALT = saltString.getBytes();
+	}
 	public AES256 (String secretKey) {
 		SECRET_KEY = secretKey;
-		SALT = tmp.getBytes();
+		SALT = saltString.getBytes();
 	}
 	public AES256 (String secretKey, String salt) {
-		SECRET_KEY = secretKey;
-		SALT = salt.getBytes();
+		String secret = secretKey;
+		if (secretKey.length() < 32 || secretKey.length() > 32) {
+			if (secretKey.length() > 32) {
+				SECRET_KEY = secret.substring(0, 31);
+			} else {
+				if (secret.length() < 16)
+					secret = secret.concat(secretKey);
+				secret = secret.concat(secretKey.substring(0, 15 - secretKey.length()));
+			}
+		}
+
+		String salt_ = salt;
+		SECRET_KEY = secret;
+		if (salt.length() < 16  || salt.length() > 16) {
+			if (salt.length() > 16) {
+				salt_ = salt.substring(0, 15);
+			} else {
+				if (salt.length() < 8)
+					salt = salt.concat(salt);
+				salt_ = salt.concat(salt.substring(0, 7 - secret.length()));
+			}
+		}
+		SALT = salt_.getBytes();
 	}
 
-	public String encrypt(String strToEncrypt) {
+	public void changeSalt (String Salt) {
+		SALT = Salt.getBytes();
+	}
+	public void changeSecretKey (String SecretKey) {
+		SECRET_KEY = SecretKey;
+	}
+	public String encrypt (String strToEncrypt) {
 		try {
 			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 			KeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT, 65536, 256);
@@ -43,7 +73,7 @@ public class AES256 {
 		return null;
 	}
 
-	public String decrypt(String strToDecrypt) {
+	public String decrypt (String strToDecrypt) {
 		try {
 			SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 			KeySpec spec = new PBEKeySpec(SECRET_KEY.toCharArray(), SALT, 65536, 256);
