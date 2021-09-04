@@ -2,7 +2,9 @@ import java.io.*;
 import java.util.*;
 
 public class CSV {
-	private char sep = ',';
+
+	//Attributs
+
 	private String nomFichier;
 	private FileReader fr;
 	private FileWriter fw;
@@ -11,21 +13,21 @@ public class CSV {
 	private boolean accesOK = false;
 	
 	//Constructeurs
+
 	public CSV () {
 		nomFichier = "nameless.csv";
 	}
+
 	public CSV (String nomFichier) {
 		if (nomFichier != null)
 			this.nomFichier = nomFichier;
 	}
-	public CSV (String nomFichier, char sep) {
-		if (nomFichier != null)
-			this.nomFichier = nomFichier;
-	
-		if (sep != '\0')
-			this.sep = sep;
-	}
 
+
+	/**
+	 * Une méthode de test de lecture du fichier 
+	 */
+	
 	public void accederFichierTest () {
 		try {
 			fr = new FileReader(nomFichier);
@@ -44,10 +46,21 @@ public class CSV {
 			br = new BufferedReader(fr);
 			br.close();
 			fr.close();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			if (!accesOK)
+				return;
+			
+			accesOK = false;
+			return;
+		}
 		accesOK = true;
 	}
-	
+
+	/**
+	 * Lit les lignes d'un fichier
+	 * @return La liste les lignes
+	 */
+
 	public List<String> getLignesFichier() {
 		
 		List<String> l = new ArrayList<String>();
@@ -74,6 +87,8 @@ public class CSV {
 			}
 			return l;
 	}
+
+	//Crée un fichier vide avec le nom donné dans le constructeur
 	public void creationFichier () {
 		try {
 			fw = new FileWriter(nomFichier);
@@ -83,8 +98,12 @@ public class CSV {
 			bw.write("");
 			bw.close();
 			fw.close();
-		} catch (Exception e) {return;}
+		} catch (Exception e) {
+			accesOK = false;
+			return;}
 	}
+
+	//Ajoute une ligne de texte à la fin du fichier et le ferme
 	public void ajouterLigne (String contenu) {
 		try {
 			fw = new FileWriter(nomFichier, true);
@@ -95,5 +114,13 @@ public class CSV {
 			bw.close();
 			fw.close();
 		} catch (Exception e) {return;}
+	}
+
+	/**
+	 * Getter accesOK
+	 * @return le booléen
+	 */
+	public boolean getAccesOK(){
+		return accesOK;
 	}
 }

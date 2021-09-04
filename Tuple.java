@@ -37,6 +37,11 @@ public class Tuple {
 			this.password = password;
 	}
 	
+	/**
+	 * Une méthode de parsing de String en Tuple
+	 * @param s (une ligne de )
+	 * @return
+	 */
 	public static Tuple stringToTuple(String s) {
 		String serv, user, pass;
 		if (s == null)
@@ -54,6 +59,10 @@ public class Tuple {
 		Tuple res = new Tuple (serv, user, pass);
 		return res;
 	}
+
+	/**
+	 * méthode toString
+	 */
 	public String toString () {
 		String res = String.format("%s, %s, %s", service, username, password);
 		return res;
