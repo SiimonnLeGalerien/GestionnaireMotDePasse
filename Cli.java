@@ -5,6 +5,6 @@ public class Cli {
             return;
         }   
         Commandes commandes = new Commandes();
-        
+        System.out.println(commandes.presentDansListe("add"));
     } 
 }

@@ -74,7 +74,6 @@ public class CSV {
 				br = new BufferedReader(fr);
 				int c = 0;
 				while(l.add(br.readLine())){
-					System.out.println(l.get(c));
 					if (l.get(c) == null) {
 						l.remove(c);
 						return l;
