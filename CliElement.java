@@ -1,4 +1,3 @@
-import java.util.*;
 public class CliElement {
     enum TypeElement {commande, option, argument, nonReconnu};
     TypeElement elem;
